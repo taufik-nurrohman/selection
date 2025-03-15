@@ -29,7 +29,7 @@ Methods
 
 ### hasSelection(node)
 
-### insertAtSelection(content, mode = true)
+### insertAtSelection(content|node|[node, ...], mode = true)
 
 ### letSelection(node)
 
@@ -41,4 +41,4 @@ Methods
 
 ### selectToNone()
 
-### setSelection(node, range)
+### setSelection(node, range|[start, end])
