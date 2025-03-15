@@ -1,6 +1,6 @@
-const {D, W, getChildFirst, getChildren, getHTML, getType, setChildLast, setElement} = require('@taufik-nurrohman/document');
+const {D, W, getChildFirst, getChildren, getHTML, getType, setChildLast, setElement, setHTML} = require('@taufik-nurrohman/document');
 const {forEachArray} = require('@taufik-nurrohman/f');
-const {isArray} = require('@taufik-nurrohman/is');
+const {isArray, isString} = require('@taufik-nurrohman/is');
 const {toCount} = require('@taufik-nurrohman/to');
 
 const _getSelection = () => D.getSelection();
@@ -32,11 +32,18 @@ const insertAtSelection = (content, mode, selection) => {
     if (selection.rangeCount) {
         range = selection.getRangeAt(0);
         range.deleteContents();
-        from = setElement('div', content);
         to = D.createDocumentFragment();
         let nodeCurrent, nodeFirst, nodeLast;
-        while (nodeCurrent = getChildFirst(from, 1)) {
-            nodeLast = setChildLast(to, nodeCurrent);
+        if (isString(content)) {
+            from = setElement('div');
+            setHTML(from, content);
+            while (nodeCurrent = getChildFirst(from, 1)) {
+                nodeLast = setChildLast(to, nodeCurrent);
+            }
+        } else if (isArray(content)) {
+            forEachArray(content, v => (nodeLast = setChildLast(to, v)));
+        } else {
+            nodeLast = setChildLast(to, content);
         }
         nodeFirst = getChildFirst(to, 1);
         range.insertNode(to);
