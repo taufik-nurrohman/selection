@@ -23,14 +23,22 @@ console.log(getSelection());
 Methods
 -------
 
-### getSelection()
+### focusTo(node, mode = 1)
 
-### hasSelection()
+### getSelection(node)
 
-### letSelection()
+### hasSelection(node)
+
+### insertAtSelection(content, mode = true)
+
+### letSelection(node)
 
 ### restoreSelection(node, store)
 
 ### saveSelection(node)
 
-### setSelection(range)
+### selectTo(node, mode = true)
+
+### selectToNone()
+
+### setSelection(node, range)

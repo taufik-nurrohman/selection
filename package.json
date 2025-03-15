@@ -3,6 +3,8 @@
   "bugs": "https://github.com/taufik-nurrohman/selection/issues",
   "dependencies": {
     "@taufik-nurrohman/document": "*",
+    "@taufik-nurrohman/f": "*",
+    "@taufik-nurrohman/is": "*",
     "@taufik-nurrohman/to": "*"
   },
   "description": "Selection utility.",
