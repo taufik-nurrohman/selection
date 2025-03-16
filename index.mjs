@@ -26,7 +26,8 @@ export const getSelection = (node, selection) => {
 export const hasSelection = (node, selection) => (selection || _getSelection()).rangeCount > 0;
 
 // <https://stackoverflow.com/a/6691294/1163000>
-export const insertAtSelection = (content, mode, selection) => {
+// The `node` parameter is currently not in use
+export const insertAtSelection = (node, content, mode, selection) => {
     selection = selection || _getSelection();
     let from, range, to;
     if (selection.rangeCount) {

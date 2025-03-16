@@ -29,7 +29,7 @@ Methods
 
 ### hasSelection(node)
 
-### insertAtSelection(content|node|[node, ...], mode = true)
+### insertAtSelection(node, content|childNode|[childNode, ...], mode = true)
 
 ### letSelection(node)
 
