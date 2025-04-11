@@ -25,6 +25,8 @@ Methods
 
 ### focusTo(node, mode = 1)
 
+### getCharBeforeCaret(node)
+
 ### getSelection(node)
 
 ### hasSelection(node)

@@ -9,6 +9,20 @@ const _setRange = () => D.createRange();
 
 export const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
 
+// TODO
+export const getCharAfterCaret = (node, selection) => {};
+
+export const getCharBeforeCaret = (node, selection) => {
+    selection = selection || _getSelection();
+    if (!selection.rangeCount) {
+        return null;
+    }
+    let range = selection.getRangeAt(0).cloneRange();
+    range.collapse(true);
+    range.setStart(node, 0);
+    return (range + "").slice(-1);
+};
+
 // The `node` parameter is currently not in use
 export const getSelection = (node, selection) => {
     selection = selection || _getSelection();
