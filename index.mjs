@@ -30,7 +30,7 @@ export const getSelection = (node, selection) => {
         return null;
     }
     let c = setElement('div');
-    for (let i = 0, j = toCount(selection.rangeCount); i < j; ++i) {
+    for (let i = 0, j = selection.rangeCount; i < j; ++i) {
         setChildLast(c, selection.getRangeAt(i).cloneContents());
     }
     return getHTML(c);
@@ -115,8 +115,8 @@ export const saveSelection = (node, selection) => {
         rangeClone = range.cloneRange();
     rangeClone.selectNodeContents(node);
     rangeClone.setEnd(range.startContainer, range.startOffset);
-    let start = toCount(rangeClone.toString());
-    return [start, start + toCount(range.toString())];
+    let start = toCount(rangeClone + "");
+    return [start, start + toCount(range + "")];
 };
 
 export const selectTo = (node, mode, selection) => {
