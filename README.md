@@ -25,7 +25,9 @@ Methods
 
 ### focusTo(node, mode = 1)
 
-### getCharBeforeCaret(node)
+### getCharAfterCaret(node, n = 1)
+
+### getCharBeforeCaret(node, n = 1)
 
 ### getSelection(node)
 
@@ -35,12 +37,18 @@ Methods
 
 ### letSelection(node)
 
+### redo(node)
+
 ### restoreSelection(node, store)
 
 ### saveSelection(node)
 
+### saveState(node)
+
 ### selectTo(node, mode = true)
 
-### selectToNone()
+### selectToNone(node)
 
 ### setSelection(node, range|[start, end])
+
+### undo(node)
