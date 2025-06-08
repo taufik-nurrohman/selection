@@ -98,13 +98,14 @@ const letSelection = (node, selection) => {
 };
 
 const redo = (node, selection) => {
-    let h = getValueInMap(node, history),
-        i = getValueInMap(node, historyIndex);
-    if (i >= toCount(h) - 1 || !(h = h[++i])) {
-        return restoreSelection(node, saveSelection(node, selection), selection);
+    let h = getValueInMap(node, history) ?? [],
+        i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
+    if (!(j = h[i + 1])) {
+        return restoreSelection(node, h[i][1], selection);
     }
+    i++;
     setValueInMap(node, i, historyIndex);
-    return setHTML(node, h[0]), restoreSelection(node, h[1], selection);
+    return setHTML(node, j[0]), restoreSelection(node, j[1], selection);
 };
 
 // <https://stackoverflow.com/a/13950376/1163000>
@@ -144,19 +145,21 @@ const saveSelection = (node, selection) => {
 };
 
 const saveState = (node, selection) => {
-    let h = getValueInMap(node, history) || [],
-        i = getValueInMap(node, historyIndex) || -1,
-        v = getHTML(node);
+    let h = getValueInMap(node, history) ?? [],
+        i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j,
+        v = getHTML(node) ?? "";
+    j = hasSelection(node, selection) ? saveSelection(node, selection) : [];
+    if (h[i] && v === h[i][0] && j[0] === h[i][1][0] && j[1] === h[i][1][1]) {
+        return node; // No change
+    }
     // Trim future history if `undo()` was used
     if (i < toCount(h) - 1) {
         h.splice(i + 1);
     }
-    if (h[i] && v === h[i][0]) {
-        return;
-    }
-    h.push([v, saveSelection(node, selection), now()]);
+    h.push([v, j, now()]);
     setValueInMap(node, h, history);
     setValueInMap(node, ++i, historyIndex);
+    return node;
 };
 
 const selectTo = (node, mode, selection) => {
@@ -194,13 +197,14 @@ const setSelection = (node, range, selection) => {
 };
 
 const undo = (node, selection) => {
-    let h = getValueInMap(node, history),
-        i = getValueInMap(node, historyIndex);
-    if (i < 0 || !(h = h[--i])) {
-        return restoreSelection(node, saveSelection(node, selection), selection);
+    let h = getValueInMap(node, history) ?? [],
+        i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
+    if (!(j = h[i - 1])) {
+        return restoreSelection(node, h[i][1], selection);
     }
+    i--;
     setValueInMap(node, i, historyIndex);
-    return setHTML(node, h[0]), restoreSelection(node, h[1], selection);
+    return setHTML(node, j[0]), restoreSelection(node, j[1], selection);
 };
 
 Object.assign(exports, {
