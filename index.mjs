@@ -151,7 +151,7 @@ export const saveState = (node, selection) => {
     if (i < toCount(h) - 1) {
         h.splice(i + 1);
     }
-    if (!h[i] || v === h[i][0]) {
+    if (h[i] && v === h[i][0]) {
         return;
     }
     h.push([v, saveSelection(node, selection), now()]);
