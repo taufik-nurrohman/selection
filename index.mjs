@@ -145,12 +145,16 @@ export const saveSelection = (node, selection) => {
 
 export const saveState = (node, selection) => {
     let h = getValueInMap(node, history) || [],
-        i = getValueInMap(node, historyIndex) || -1;
+        i = getValueInMap(node, historyIndex) || -1,
+        v = getHTML(node);
     // Trim future history if `undo()` was used
     if (i < toCount(h) - 1) {
         h.splice(i + 1);
     }
-    h.push([getHTML(node), saveSelection(node, selection), now()]);
+    if (v === h[i][0]) {
+        return;
+    }
+    h.push([v, saveSelection(node, selection), now()]);
     setValueInMap(node, h, history);
     setValueInMap(node, ++i, historyIndex);
 };
