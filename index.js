@@ -1,5 +1,5 @@
 const {D, getChildFirst, getChildren, getHTML, getType, setChildLast, setElement, setHTML} = require('@taufik-nurrohman/document');
-const {forEachArray} = require('@taufik-nurrohman/f');
+const {forEachArray, getValueInMap, hasKeyInMap, letValueInMap, setValueInMap} = require('@taufik-nurrohman/f');
 const {isArray, isString} = require('@taufik-nurrohman/is');
 const {toCount} = require('@taufik-nurrohman/to');
 
@@ -13,6 +13,12 @@ const _getSelection = () => D.getSelection();
 const _setRange = () => D.createRange();
 
 const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
+
+const clearState = (node, selection) => {
+    letValueInMap(node, history);
+    letValueInMap(node, historyIndex);
+    return node;
+};
 
 const getCharAfterCaret = (node, n, selection) => {
     selection = selection || _getSelection();
@@ -97,7 +103,7 @@ const letSelection = (node, selection) => {
     return selection.empty(), selection;
 };
 
-const redo = (node, selection) => {
+const redoState = (node, selection) => {
     let h = getValueInMap(node, history) ?? [],
         i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
     if (!(j = h[i + 1])) {
@@ -152,7 +158,7 @@ const saveState = (node, selection) => {
     if (h[i] && v === h[i][0] && j[0] === h[i][1][0] && j[1] === h[i][1][1]) {
         return node; // No change
     }
-    // Trim future history if `undo()` was used
+    // Trim future history if `undoState()` was used
     if (i < toCount(h) - 1) {
         h.splice(i + 1);
     }
@@ -196,7 +202,7 @@ const setSelection = (node, range, selection) => {
     return selection.addRange(range), selection;
 };
 
-const undo = (node, selection) => {
+const undoState = (node, selection) => {
     let h = getValueInMap(node, history) ?? [],
         i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
     if (!(j = h[i - 1])) {
@@ -208,6 +214,7 @@ const undo = (node, selection) => {
 };
 
 Object.assign(exports, {
+    clearState,
     focusTo,
     getCharAfterCaret,
     getCharBeforeCaret,
@@ -215,12 +222,12 @@ Object.assign(exports, {
     hasSelection,
     insertAtSelection,
     letSelection,
-    redo,
+    redoState,
     restoreSelection,
     saveSelection,
     saveState,
     selectTo,
     selectToNone,
     setSelection,
-    undo
+    undoState
 });

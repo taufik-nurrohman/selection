@@ -1,5 +1,5 @@
 import {D, getChildFirst, getChildren, getHTML, getType, setChildLast, setElement, setHTML} from '@taufik-nurrohman/document';
-import {forEachArray, getValueInMap, hasKeyInMap, setValueInMap} from '@taufik-nurrohman/f';
+import {forEachArray, getValueInMap, hasKeyInMap, letValueInMap, setValueInMap} from '@taufik-nurrohman/f';
 import {isArray, isString} from '@taufik-nurrohman/is';
 import {toCount} from '@taufik-nurrohman/to';
 
@@ -13,6 +13,12 @@ const _getSelection = () => D.getSelection();
 const _setRange = () => D.createRange();
 
 export const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
+
+export const clearState = (node, selection) => {
+    letValueInMap(node, history);
+    letValueInMap(node, historyIndex);
+    return node;
+};
 
 export const getCharAfterCaret = (node, n, selection) => {
     selection = selection || _getSelection();
@@ -97,7 +103,7 @@ export const letSelection = (node, selection) => {
     return selection.empty(), selection;
 };
 
-export const redo = (node, selection) => {
+export const redoState = (node, selection) => {
     let h = getValueInMap(node, history) ?? [],
         i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
     if (!(j = h[i + 1])) {
@@ -152,7 +158,7 @@ export const saveState = (node, selection) => {
     if (h[i] && v === h[i][0] && j[0] === h[i][1][0] && j[1] === h[i][1][1]) {
         return node; // No change
     }
-    // Trim future history if `undo()` was used
+    // Trim future history if `undoState()` was used
     if (i < toCount(h) - 1) {
         h.splice(i + 1);
     }
@@ -196,7 +202,7 @@ export const setSelection = (node, range, selection) => {
     return selection.addRange(range), selection;
 };
 
-export const undo = (node, selection) => {
+export const undoState = (node, selection) => {
     let h = getValueInMap(node, history) ?? [],
         i = getValueInMap(node, historyIndex) ?? toCount(h) - 1, j;
     if (!(j = h[i - 1])) {

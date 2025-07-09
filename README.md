@@ -23,6 +23,8 @@ console.log(getSelection());
 Methods
 -------
 
+### clearState(node)
+
 ### focusTo(node, mode = 1)
 
 ### getCharAfterCaret(node, n = 1)
@@ -37,7 +39,7 @@ Methods
 
 ### letSelection(node)
 
-### redo(node)
+### redoState(node)
 
 ### restoreSelection(node, store)
 
@@ -51,4 +53,4 @@ Methods
 
 ### setSelection(node, range|[start, end])
 
-### undo(node)
+### undoState(node)
