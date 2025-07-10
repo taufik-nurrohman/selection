@@ -17,7 +17,7 @@ const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
 const clearState = (node, selection) => {
     letValueInMap(node, history);
     letValueInMap(node, historyIndex);
-    return node;
+    return saveState(node, selection);
 };
 
 const getCharAfterCaret = (node, n, selection) => {
