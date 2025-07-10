@@ -14,12 +14,6 @@ const _setRange = () => D.createRange();
 
 const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
 
-const clearState = (node, selection) => {
-    letValueInMap(node, history);
-    letValueInMap(node, historyIndex);
-    return saveState(node, selection);
-};
-
 const getCharAfterCaret = (node, n, selection) => {
     selection = selection || _getSelection();
     if (!hasSelection(node, selection)) {
@@ -112,6 +106,12 @@ const redoState = (node, selection) => {
     i++;
     setValueInMap(node, i, historyIndex);
     return setHTML(node, j[0]), restoreSelection(node, j[1], selection);
+};
+
+const resetState = (node, selection) => {
+    letValueInMap(node, history);
+    letValueInMap(node, historyIndex);
+    return saveState(node, selection);
 };
 
 // <https://stackoverflow.com/a/13950376/1163000>
@@ -214,7 +214,6 @@ const undoState = (node, selection) => {
 };
 
 Object.assign(exports, {
-    clearState,
     focusTo,
     getCharAfterCaret,
     getCharBeforeCaret,
@@ -223,6 +222,7 @@ Object.assign(exports, {
     insertAtSelection,
     letSelection,
     redoState,
+    resetState,
     restoreSelection,
     saveSelection,
     saveState,

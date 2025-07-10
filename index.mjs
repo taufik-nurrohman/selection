@@ -14,12 +14,6 @@ const _setRange = () => D.createRange();
 
 export const focusTo = (node, mode, selection) => selectTo(node, mode || 1, selection);
 
-export const clearState = (node, selection) => {
-    letValueInMap(node, history);
-    letValueInMap(node, historyIndex);
-    return saveState(node, selection);
-};
-
 export const getCharAfterCaret = (node, n, selection) => {
     selection = selection || _getSelection();
     if (!hasSelection(node, selection)) {
@@ -112,6 +106,12 @@ export const redoState = (node, selection) => {
     i++;
     setValueInMap(node, i, historyIndex);
     return setHTML(node, j[0]), restoreSelection(node, j[1], selection);
+};
+
+export const resetState = (node, selection) => {
+    letValueInMap(node, history);
+    letValueInMap(node, historyIndex);
+    return saveState(node, selection);
 };
 
 // <https://stackoverflow.com/a/13950376/1163000>
